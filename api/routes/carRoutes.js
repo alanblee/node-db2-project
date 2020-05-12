@@ -6,8 +6,11 @@ const carCtrl = require("../controllers/carController");
 router.route("/").get(carCtrl.getAllCars);
 //CREATE
 router.route("/").post(carCtrl.createCar);
-//READ specific car
+//READ
 router.route("/:carId").get(carCtrl.getSingleCar);
-//DELETE car
+//DELETE
 router.route("/:carId").delete(carCtrl.deleteCar);
+//PUT
+router.route("/:carId").put(carCtrl.editCar);
+
 module.exports = router;

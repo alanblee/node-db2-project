@@ -72,3 +72,36 @@ module.exports.deleteCar = async (req, res) => {
     res.status(500).json({ message: "Error deleting car" });
   }
 };
+
+//EDIT
+module.exports.editCar = async (req, res) => {
+  const { vin, make, model, mileage, transmissionType, title } = req.body;
+  const carId = Number(req.params.carId);
+  if (!validation(req.body)) {
+    res
+      .status(400)
+      .json({ message: "Please provide VIN, MAKE, MODEL and MILEAGE." });
+  } else {
+    try {
+      const updatedCarInfo = {
+        vin,
+        make,
+        model,
+        mileage,
+        transmissionType,
+        title,
+      };
+      const count = await carDB("cars")
+        .where({ id: carId })
+        .update(updatedCarInfo);
+      console.log(count);
+      if (count > 0) {
+        res.status(200).json(count);
+      } else {
+        res.status(404).json({ message: "No car found with that id." });
+      }
+    } catch (err) {
+      res.status(500).json({ message: "Error updating car", err: err.message });
+    }
+  }
+};
