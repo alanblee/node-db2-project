@@ -57,3 +57,18 @@ module.exports.getSingleCar = async (req, res) => {
     res.status(500).json({ message: "Error fetching cars", err: err.message });
   }
 };
+
+//DELETE
+module.exports.deleteCar = async (req, res) => {
+  const carId = Number(req.params.carId);
+  try {
+    const count = await carDB("cars").where({ id: carId }).del();
+    if (count > 0) {
+      res.status(200).json(count);
+    } else {
+      res.status(404).json({ message: "No car found with that id." });
+    }
+  } catch (err) {
+    res.status(500).json({ message: "Error deleting car" });
+  }
+};

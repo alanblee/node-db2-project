@@ -8,4 +8,6 @@ router.route("/").get(carCtrl.getAllCars);
 router.route("/").post(carCtrl.createCar);
 //READ specific car
 router.route("/:carId").get(carCtrl.getSingleCar);
+//DELETE car
+router.route("/:carId").delete(carCtrl.deleteCar);
 module.exports = router;
