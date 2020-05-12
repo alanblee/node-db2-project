@@ -38,9 +38,22 @@ module.exports.createCar = async (req, res) => {
         res.status(201).json(createdCar);
       }
     } catch (err) {
-      res
-        .status(500)
-        .json({ message: "Error adding cars", err: err.message });
+      res.status(500).json({ message: "Error adding cars", err: err.message });
     }
+  }
+};
+
+//GET specific car
+module.exports.getSingleCar = async (req, res) => {
+  const carId = Number(req.params.carId);
+  try {
+    const singleCar = await carDB("cars").where({ id: carId }).first();
+    if (singleCar.id === carId) {
+      res.status(200).json(singleCar);
+    } else {
+      res.status(404).json({ message: "No cars found with that id" });
+    }
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching cars", err: err.message });
   }
 };
